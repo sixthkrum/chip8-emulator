@@ -34,7 +34,7 @@ void chip8_instruction_set::call(){
 void chip8_instruction_set::sevxb(){
     auto [instruction_lhs, instruction_rhs] = extract_xb(program_counter[program_counter_index]);
     
-    if(instruction_lhs == instruction_rhs){
+    if(registers_8bit[instruction_lhs] == instruction_rhs){
         program_counter_index ++;
     }
 
