@@ -9,9 +9,11 @@ void device::cls(){
     }
 }
 
-device::device(uint8_t x, uint8_t y)
-    : screen_height(y)
-    , screen_length(x){
+device::device(uint16_t screen_y_max, uint16_t screen_x_max, uint8_t keypad_size_)
+    : screen_height(screen_y_max)
+    , screen_length(screen_x_max)
+    , keypad_size(keypad_size_)
+    , chip8_instruction_set(screen_y_max, screen_x_max, keypad_size_){
     memory_map = new uint16_t[memory_size];
     program_counter = memory_map;
     stack_pointer = new uint16_t[stack_size];

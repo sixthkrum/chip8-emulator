@@ -8,9 +8,9 @@ class device : public chip8_instruction_set{
     private:
     const uint16_t memory_size = 2048; // Words
     const uint8_t stack_size = 16; // Words
-    const uint8_t keypad_size = 16; // Keys
-    const uint16_t screen_height; // Pixels
-    const uint16_t screen_length; // Pixels
+    const uint8_t keypad_size; // Keys, default 16
+    const uint16_t screen_height; // Pixels, default 32
+    const uint16_t screen_length; // Pixels, default 64
     
     public:
     uint16_t *memory_map;
@@ -22,7 +22,7 @@ class device : public chip8_instruction_set{
     uint8_t sound_timer;
     
     void cls();
-    device(uint8_t, uint8_t);
+    device(uint16_t, uint16_t, uint8_t);
     ~device();  
 };
 
