@@ -8,15 +8,19 @@ uint16_t extract_address(uint16_t instruction){
 }
 
 std::tuple<uint8_t, uint8_t> extract_xb(uint16_t instruction){
-    uint8_t b = std::bitset<8>(instruction).to_ulong();
-    uint8_t x = std::bitset<4>(std::rotr(instruction, 8)).to_ulong();
-
-    return std::tuple<uint8_t, uint8_t>{x, b};
+    return std::tuple<uint8_t, uint8_t>{
+        std::bitset<8>(instruction).to_ulong()
+    ,   std::bitset<4>(std::rotr(instruction, 8)).to_ulong()
+    };
 }
 
 std::tuple<uint8_t, uint8_t> extract_xy(uint16_t instruction){
-    uint8_t y = std::bitset<4>(std::rotr(instruction, 4)).to_ulong();
-    uint8_t x = std::bitset<4>(std::rotr(instruction, 8)).to_ulong();
+    return std::tuple<uint8_t, uint8_t>{
+        std::bitset<4>(std::rotr(instruction, 4)).to_ulong()
+    ,   std::bitset<4>(std::rotr(instruction, 8)).to_ulong()
+    };
+}
 
-    return std::tuple<uint8_t, uint8_t>{x, y};
+uint8_t extract_x(uint16_t instruction){
+    return uint8_t(std::bitset<4>(std::rotr(instruction, 8)).to_ulong());
 }
