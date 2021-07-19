@@ -16,6 +16,12 @@ chip8_instruction_set::~chip8_instruction_set(){
     delete register_16bit;
 }
 
+uint8_t chip8_instruction_set::keypress_read(){
+    return 1;
+}
+
+void chip8_instruction_set::cls(){}
+
 void chip8_instruction_set::ret(){
     if(stack_pointer_index != min_stack_pointer_index){
         program_counter_index = stack_pointer[stack_pointer_index];
@@ -40,8 +46,6 @@ void chip8_instruction_set::sevxb(){
     if(registers_8bit[instruction_lhs] == instruction_rhs){
         program_counter_index ++;
     }
-
-    program_counter_index ++;
 }
 
 void chip8_instruction_set::snevxb(){
@@ -50,8 +54,6 @@ void chip8_instruction_set::snevxb(){
     if(registers_8bit[instruction_lhs] != instruction_rhs){
         program_counter_index ++;
     }
-
-    program_counter_index ++;
 }
 
 void::chip8_instruction_set::sevxvy(){
@@ -60,8 +62,6 @@ void::chip8_instruction_set::sevxvy(){
     if(registers_8bit[instruction_lhs] == registers_8bit[instruction_rhs]){
         program_counter_index ++;
     }
-
-    program_counter_index ++;
 }
 
 void::chip8_instruction_set::snevxvy(){
@@ -70,8 +70,6 @@ void::chip8_instruction_set::snevxvy(){
     if(registers_8bit[instruction_lhs] != registers_8bit[instruction_rhs]){
         program_counter_index ++;
     }
-
-    program_counter_index ++;
 }
 
 void::chip8_instruction_set::skp(){
@@ -83,8 +81,6 @@ void::chip8_instruction_set::skp(){
             program_counter_index ++;
         }
     }
-
-    program_counter_index ++;
 }
 
 void::chip8_instruction_set::sknp(){
@@ -96,6 +92,29 @@ void::chip8_instruction_set::sknp(){
             program_counter_index ++;
         }
     }
+}
 
-    program_counter_index ++;
+void chip8_instruction_set::ldvxb(){
+    auto [instruction_lhs, instruction_rhs] = extract_xb(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] = instruction_rhs;
+}
+
+void chip8_instruction_set::ldvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] = registers_8bit[instruction_rhs];
+}
+
+void chip8_instruction_set::addvxb(){
+    auto [instruction_lhs, instruction_rhs] = extract_xb(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] += instruction_rhs;
+}
+
+void chip8_instruction_set::addvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] += registers_8bit[instruction_rhs];
+}
+
+void chip8_instruction_set::addivx(){
+    instruction_lhs = extract_x(program_counter[program_counter_index]);
+    *register_16bit += registers_8bit[instruction_lhs];
 }

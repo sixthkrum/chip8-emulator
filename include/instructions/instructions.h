@@ -39,8 +39,11 @@ class chip8_instruction_set{
     chip8_instruction_set(uint16_t, uint16_t, uint8_t);
     ~chip8_instruction_set();
 
+    // Blocking read of a keypress
+    virtual uint8_t keypress_read(); // A device must provide its own implementation of this function
+
     // Clears screen
-    void cls(); // A device must provide its own implementation of this function
+    virtual void cls(); // A device must provide its own implementation of this function
     
     // Returns to the address at the top of the stack
     void ret();
@@ -68,6 +71,30 @@ class chip8_instruction_set{
 
     // Skips next instruction if key with value Vx is not pressed
     void sknp();
+    
+    // Puts value of byte into Vx
+    void ldvxb();
+
+    // Puts value of Vy into Vx
+    void ldvxvy();
+
+    // Adds value of Vx and byte and puts it into Vx
+    void addvxb();
+
+    // Adds value of Vx and Vy and puts it into Vx
+    void addvxvy();
+
+    // Adds value of I and Vx and puts it into I
+    void addivx();
+    
+    // Puts the value of delay timer into Vx
+    void ldvxdt();
+
+    // Puts the value of Vx into delay timer
+    void lddtvx();
+
+    // Wait for a key press and store the value of the key in Vx
+    void ldvxk(); // A device must provide its own implementation of blocking keypress reads 
 };
 
 #endif
