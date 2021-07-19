@@ -111,10 +111,31 @@ void chip8_instruction_set::addvxb(){
 
 void chip8_instruction_set::addvxvy(){
     auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    uint8_t temp = registers_8bit[instruction_lhs];
     registers_8bit[instruction_lhs] += registers_8bit[instruction_rhs];
+
+    if(temp > registers_8bit[instruction_lhs]){
+        registers_8bit[num_registers_8bit] = 1;
+    }
 }
 
 void chip8_instruction_set::addivx(){
     instruction_lhs = extract_x(program_counter[program_counter_index]);
     *register_16bit += registers_8bit[instruction_lhs];
 }
+
+void chip8_instruction_set::orvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] |= registers_8bit[instruction_rhs];
+}
+
+void chip8_instruction_set::andvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] &= registers_8bit[instruction_rhs];
+}
+
+void chip8_instruction_set::xorvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    registers_8bit[instruction_lhs] ^= registers_8bit[instruction_rhs];
+}
+

@@ -86,6 +86,15 @@ class chip8_instruction_set{
 
     // Adds value of I and Vx and puts it into I
     void addivx();
+
+    // Performs 'or' operation between Vx and Vy and puts it into Vx
+    void orvxvy();
+
+    // Performs 'and' operation between Vx and Vy and puts it into Vx
+    void andvxvy();
+
+    // Performs 'xor' operation between Vx and Vy and puts it into Vx
+    void xorvxvy();
     
     // Puts the value of delay timer into Vx
     void ldvxdt();
