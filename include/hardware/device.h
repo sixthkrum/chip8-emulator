@@ -22,6 +22,8 @@ class device : public chip8_instruction_set{
     uint8_t sound_timer;
     
     void cls();
+    uint8_t keypress_read();
+
     device(uint16_t, uint16_t, uint8_t);
     ~device();  
 };

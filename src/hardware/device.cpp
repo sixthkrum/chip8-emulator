@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "device.h"
+#include "instructions.h"
 
 void device::cls(){
     for(int i = 0; i < screen_height; i ++){
@@ -7,6 +8,11 @@ void device::cls(){
             device::memory_map[(i * screen_length) + j] = 0;        
         }
     }
+}
+
+uint8_t device::keypress_read(){
+    // Implement with imgui
+    return 1;
 }
 
 device::device(uint16_t screen_y_max, uint16_t screen_x_max, uint8_t keypad_size_)
