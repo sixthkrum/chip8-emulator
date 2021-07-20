@@ -96,6 +96,24 @@ class chip8_instruction_set{
     // Performs 'xor' operation between Vx and Vy and puts it into Vx
     void xorvxvy();
     
+    // Subtracts value of Vy from Vx and puts it into Vx
+    void subvxvy();
+
+    // Subtracts value of Vx from Vy and puts it into Vx
+    void subnvxvy();
+
+    // Sets Vx to Vy >> 1 and stores LSB in VF
+    void shrvxvy();
+
+    // Sets Vx to Vy << 1 and stores MSB in VF
+    void shlvxvy();
+
+    // Sets value of I to 3 nibble address
+    void ldia();
+
+    // Jumps to address (3 nibble + V0)
+    void jpav0();
+    
     // Puts the value of delay timer into Vx
     void ldvxdt();
 

@@ -115,7 +115,7 @@ void chip8_instruction_set::addvxvy(){
     registers_8bit[instruction_lhs] += registers_8bit[instruction_rhs];
 
     if(temp > registers_8bit[instruction_lhs]){
-        registers_8bit[num_registers_8bit] = 1;
+        registers_8bit[num_registers_8bit - 1] = 1;
     }
 }
 
@@ -137,5 +137,53 @@ void chip8_instruction_set::andvxvy(){
 void chip8_instruction_set::xorvxvy(){
     auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] ^= registers_8bit[instruction_rhs];
+}
+
+void chip8_instruction_set::subvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+
+    if(registers_8bit[instruction_lhs] > registers_8bit[instruction_rhs]){
+        registers_8bit[num_registers_8bit - 1] = 1;
+    }
+
+    registers_8bit[instruction_lhs] -= registers_8bit[instruction_rhs];
+}
+
+void chip8_instruction_set::subnvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+
+    if(registers_8bit[instruction_lhs] < registers_8bit[instruction_rhs]){
+        registers_8bit[num_registers_8bit - 1] = 1;
+    }
+
+    registers_8bit[instruction_lhs] = registers_8bit[instruction_rhs] - registers_8bit[instruction_lhs];
+}
+
+void chip8_instruction_set::shrvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    
+    if(registers_8bit[instruction_rhs] & 0b00000001 == 1){
+        registers_8bit[num_registers_8bit - 1] = 1;
+    }
+
+    registers_8bit[instruction_lhs] == registers_8bit[instruction_rhs] >> 1;
+}
+
+void chip8_instruction_set::shlvxvy(){
+    auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
+    
+    if(registers_8bit[instruction_rhs] & 0b10000000 == 0b10000000){
+        registers_8bit[num_registers_8bit - 1] = 1;
+    }
+
+    registers_8bit[instruction_lhs] == registers_8bit[instruction_rhs] << 1;
+}
+
+void chip8_instruction_set::ldia(){
+    *register_16bit = extract_address(program_counter[program_counter_index]);
+}
+
+void chip8_instruction_set::jpav0(){
+    program_counter_index = extract_address(program_counter[program_counter_index]) + registers_8bit[0];
 }
 
