@@ -46,6 +46,8 @@ void chip8_instruction_set::sevxb(){
     if(registers_8bit[instruction_lhs] == instruction_rhs){
         program_counter_index ++;
     }
+
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::snevxb(){
@@ -54,6 +56,8 @@ void chip8_instruction_set::snevxb(){
     if(registers_8bit[instruction_lhs] != instruction_rhs){
         program_counter_index ++;
     }
+
+    program_counter_index ++;
 }
 
 void::chip8_instruction_set::sevxvy(){
@@ -62,6 +66,8 @@ void::chip8_instruction_set::sevxvy(){
     if(registers_8bit[instruction_lhs] == registers_8bit[instruction_rhs]){
         program_counter_index ++;
     }
+
+    program_counter_index ++;
 }
 
 void::chip8_instruction_set::snevxvy(){
@@ -70,6 +76,8 @@ void::chip8_instruction_set::snevxvy(){
     if(registers_8bit[instruction_lhs] != registers_8bit[instruction_rhs]){
         program_counter_index ++;
     }
+        
+    program_counter_index ++;
 }
 
 void::chip8_instruction_set::skp(){
@@ -81,6 +89,8 @@ void::chip8_instruction_set::skp(){
             program_counter_index ++;
         }
     }
+            
+    program_counter_index ++;
 }
 
 void::chip8_instruction_set::sknp(){
@@ -92,21 +102,29 @@ void::chip8_instruction_set::sknp(){
             program_counter_index ++;
         }
     }
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::ldvxb(){
     auto [instruction_lhs, instruction_rhs] = extract_xb(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] = instruction_rhs;
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::ldvxvy(){
     auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] = registers_8bit[instruction_rhs];
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::addvxb(){
     auto [instruction_lhs, instruction_rhs] = extract_xb(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] += instruction_rhs;
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::addvxvy(){
@@ -117,26 +135,36 @@ void chip8_instruction_set::addvxvy(){
     if(temp > registers_8bit[instruction_lhs]){
         registers_8bit[num_registers_8bit - 1] = 1;
     }
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::addivx(){
     instruction_lhs = extract_x(program_counter[program_counter_index]);
     *register_16bit += registers_8bit[instruction_lhs];
+
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::orvxvy(){
     auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] |= registers_8bit[instruction_rhs];
+
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::andvxvy(){
     auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] &= registers_8bit[instruction_rhs];
+        
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::xorvxvy(){
     auto [instruction_lhs, instruction_rhs] = extract_xy(program_counter[program_counter_index]);
     registers_8bit[instruction_lhs] ^= registers_8bit[instruction_rhs];
+        
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::subvxvy(){
@@ -147,6 +175,8 @@ void chip8_instruction_set::subvxvy(){
     }
 
     registers_8bit[instruction_lhs] -= registers_8bit[instruction_rhs];
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::subnvxvy(){
@@ -157,6 +187,8 @@ void chip8_instruction_set::subnvxvy(){
     }
 
     registers_8bit[instruction_lhs] = registers_8bit[instruction_rhs] - registers_8bit[instruction_lhs];
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::shrvxvy(){
@@ -167,6 +199,8 @@ void chip8_instruction_set::shrvxvy(){
     }
 
     registers_8bit[instruction_lhs] == registers_8bit[instruction_rhs] >> 1;
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::shlvxvy(){
@@ -177,10 +211,14 @@ void chip8_instruction_set::shlvxvy(){
     }
 
     registers_8bit[instruction_lhs] == registers_8bit[instruction_rhs] << 1;
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::ldia(){
     *register_16bit = extract_address(program_counter[program_counter_index]);
+            
+    program_counter_index ++;
 }
 
 void chip8_instruction_set::jpav0(){
