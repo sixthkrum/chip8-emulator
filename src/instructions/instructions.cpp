@@ -225,3 +225,6 @@ void chip8_instruction_set::jpav0(){
     program_counter_index = extract_address(program_counter[program_counter_index]) + registers_8bit[0];
 }
 
+void chip8_instruction_set::rndvxb(){
+    return random_8bit();    
+}

@@ -114,6 +114,9 @@ class chip8_instruction_set{
     // Jumps to address (3 nibble + V0)
     void jpav0();
     
+    // Generate a random 8 bit number and put it into Vx
+    virtual void rndvxb(); // Device may provide its own implementation
+
     // Puts the value of delay timer into Vx
     void ldvxdt();
 
