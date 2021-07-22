@@ -5,7 +5,7 @@
 void device::cls(){
     for(int i = 0; i < screen_height; i ++){
         for(int j = 0; j < screen_length; j ++){
-            device::memory_map[(i * screen_length) + j] = 0;        
+            device::screen_map[(i * screen_length) + j] = 0;        
         }
     }
 }
