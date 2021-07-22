@@ -20,8 +20,7 @@ device::device(uint16_t screen_y_max, uint16_t screen_x_max, uint8_t keypad_size
     , screen_length(screen_x_max)
     , keypad_size(keypad_size_)
     , chip8_instruction_set(screen_y_max, screen_x_max, keypad_size_){
-    memory_map = new uint16_t[memory_size];
-    program_counter = memory_map;
+    memory_map = new uint8_t[memory_size];
     stack_pointer = new uint16_t[stack_size];
     keypad_map = new bool[keypad_size];
     screen_map = new bool[screen_height * screen_length];
@@ -32,7 +31,8 @@ device::device(uint16_t screen_y_max, uint16_t screen_x_max, uint8_t keypad_size
 
 device::~device(){
     delete [] memory_map;
+    delete program_counter;
+    delete [] stack_pointer;
     delete [] keypad_map;
     delete [] screen_map;
-    delete program_counter;
 }
