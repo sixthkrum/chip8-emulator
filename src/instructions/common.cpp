@@ -26,6 +26,10 @@ uint8_t extract_x(uint16_t instruction){
     return uint8_t(std::bitset<4>(std::rotr(instruction, 8)).to_ulong());
 }
 
+uint8_t extract_n(uint16_t instruction){
+    return uint8_t(std::bitset<4>(instruction).to_ulong());
+}
+
 uint8_t random_8bit(){
     std::random_device rd;
     std::mt19937 mt_generator(rd());

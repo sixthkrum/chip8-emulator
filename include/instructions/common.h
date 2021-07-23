@@ -18,6 +18,9 @@ std::tuple<uint8_t, uint8_t> extract_xy(uint16_t);
 // Extract a nibble from the given instruction X a X X
 uint8_t extract_x(uint16_t);
 
+// Extract a nibble from the given instruction X X X n
+uint8_t extract_n(uint16_t);
+
 // Generate a random 8 bit number
 uint8_t random_8bit();
 
