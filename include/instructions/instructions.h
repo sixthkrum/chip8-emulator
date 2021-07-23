@@ -5,16 +5,15 @@
 
 class chip8_instruction_set{
     private:
-    uint16_t *memory_map;
+    uint8_t *memory_map;
     uint16_t *program_counter;
     uint16_t *stack_pointer;
 
-    uint16_t memory_map_index; // Index of device's memory map
-    uint16_t program_counter_index; // Index of device's program counter array
+    uint16_t program_counter_index; // Index of currenty executing position in memory map
     
     uint8_t stack_pointer_index; // Index of device's stack pointer array
     const uint8_t min_stack_pointer_index = 0;
-    const uint8_t max_stack_pointer_index = 16;
+    const uint8_t max_stack_pointer_index = 15;
 
     bool *keypad_map;
     const uint8_t keypad_size;
@@ -116,6 +115,9 @@ class chip8_instruction_set{
     
     // Generate a random 8 bit number and put it into Vx
     virtual void rndvxb(); // Device may provide its own implementation
+
+    // Draw a 'n' byte sprite starting at I at location (Vx, Vy) on the screen
+    void drwvxn(); // Only updates the screen map, drawing to the screen is implemented by device
 
     // Puts the value of delay timer into Vx
     void ldvxdt();
