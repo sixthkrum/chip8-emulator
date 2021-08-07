@@ -30,6 +30,8 @@ class chip8_instruction_set{
 
     uint16_t *register_16bit;
 
+    uint8_t sprite_start_position = 0; // Start position from where the number sprite representation in memory start
+
     uint8_t instruction_lhs; // LHS of operation for current instruction
     uint8_t instruction_rhs; // RHS of operation for current instruction
     uint16_t instruction_3n_2b; // Value of any number that is 3 nibbles or 2 bytes long in an instruction 
@@ -37,6 +39,9 @@ class chip8_instruction_set{
     public:
     chip8_instruction_set(uint16_t, uint16_t, uint8_t);
     ~chip8_instruction_set();
+
+    // Set the number sprites into the memory
+    void set_memory_number_sprites();
 
     // Blocking read of a keypress
     virtual uint8_t keypress_read(); // A device must provide its own implementation of this function
@@ -125,8 +130,23 @@ class chip8_instruction_set{
     // Puts the value of Vx into delay timer
     void lddtvx();
 
+    // Puts the value of Vx into sound timer
+    void ldstvx();
+
     // Wait for a key press and store the value of the key in Vx
-    void ldvxk(); // A device must provide its own implementation of blocking keypress reads 
+    void ldvxk(); // A device must provide its own implementation of blocking keypress reads
+
+    // Set value of I to the starting address of the number sprite corresponding to value in Vx
+    void ldfvx();
+
+    // Store BCD values of Vx into memory locations I, I + 1, I + 2
+    void ldbvx();
+
+    // Stores values starting from V0 through VX into I
+    void ldivx();
+
+    // Stores values starting from address in I into V0 through Vx
+    void ldvxi();
 };
 
 #endif

@@ -10,6 +10,7 @@ chip8_instruction_set::chip8_instruction_set(uint16_t screen_y_max, uint16_t scr
     , keypad_size(keypad_size_){
     registers_8bit = new uint8_t[num_registers_8bit];
     register_16bit = new uint16_t;
+    set_memory_number_sprites();
 }
 
 chip8_instruction_set::~chip8_instruction_set(){
@@ -17,8 +18,34 @@ chip8_instruction_set::~chip8_instruction_set(){
     delete register_16bit;
 }
 
+void chip8_instruction_set::set_memory_number_sprites(){
+    // contains the hex code only
+    uint8_t temp_num_codes[0x50] = {
+        0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+        0x20, 0x60, 0x20, 0x20, 0x70, // 1
+        0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+        0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+        0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+        0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+        0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+        0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+        0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+        0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+        0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+        0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+        0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+        0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+        0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+        0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+    };
+
+    for(int i = 0; i < 0x50 ; i ++){
+        memory_map[i] = temp_num_codes[i];
+    }
+}
+
 uint8_t chip8_instruction_set::keypress_read(){
-    return 1;
+    return 0;
 }
 
 void chip8_instruction_set::cls(){}
@@ -265,4 +292,70 @@ void chip8_instruction_set::drwvxn(){
     }
 
     program_counter_index ++;    
+}
+
+void chip8_instruction_set::ldvxdt(){
+    instruction_lhs = extract_x(*program_counter);
+    registers_8bit[instruction_lhs] =  delay_timer;
+
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::lddtvx(){
+    instruction_lhs = extract_x(*program_counter);
+    delay_timer = registers_8bit[instruction_lhs];
+
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::ldvxk(){
+    instruction_lhs = extract_x(*program_counter);
+    registers_8bit[instruction_lhs] = keypress_read();
+
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::ldstvx(){
+    instruction_lhs = extract_x(*program_counter);
+    sound_timer = registers_8bit[instruction_lhs];
+
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::ldfvx(){
+    instruction_lhs = extract_x(*program_counter);
+    *register_16bit = instruction_lhs * 5 + sprite_start_position; // 5 width sprites
+
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::ldbvx(){
+    instruction_lhs = extract_x(*program_counter);
+    instruction_lhs = registers_8bit[instruction_lhs];
+
+    for(int i = 0; i < 3; i ++){
+        memory_map[*register_16bit + i] = instruction_lhs % (10 * (3 - i));   
+    }
+
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::ldivx(){
+    instruction_lhs = extract_x(*program_counter);
+
+    for(int i = 0; i <= instruction_lhs; i ++){
+        memory_map[*register_16bit + i] = registers_8bit[i];
+    }
+    
+    program_counter_index ++;
+}
+
+void chip8_instruction_set::ldvxi(){
+    instruction_lhs = extract_x(*program_counter);
+
+    for(int i = 0; i <= instruction_lhs; i ++){
+        registers_8bit[i] = memory_map[*register_16bit + i];
+    }
+
+    program_counter_index ++;
 }
